@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ExcuusExpert - Portal</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="jouw-logo.png">
+
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <!-- Font Awesome Iconen -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root {
+      --bg-dark: #07090e;
+      --card-bg: rgba(16, 18, 30, 0.85);
+      --border-color: rgba(255, 255, 255, 0.08);
+      --border-hover: rgba(108, 99, 255, 0.6);
+      --primary: #6c63ff;
+      --primary-gradient: linear-gradient(135deg, #6c63ff 0%, #4f46e5 100%);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', Arial, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Ambient Glow op de achtergrond */
+    body::before {
+      content: '';
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(108, 99, 255, 0.22) 0%, rgba(0,0,0,0) 70%);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: -1;
+      animation: pulseGlow 8s ease-in-out infinite alternate;
+    }
+
+    @keyframes pulseGlow {
+      0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.5; }
+      100% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.9; }
+    }
+
+    .container {
+      width: 100%;
+      max-width: 800px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 36px;
+    }
+
+    /* Header & Titel */
+    .header {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .title {
+      font-size: 36px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #ffffff 30%, #a5b4fc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.5px;
+    }
+
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    /* Grid van de keuzekaarten */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      width: 100%;
+    }
+
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border-color);
+      border-radius: 24px;
+      padding: 32px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      border-color: var(--border-hover);
+      box-shadow: 0 25px 60px rgba(108, 99, 255, 0.25);
+    }
+
+    .logo-img {
+      width: 90px;
+      height: 90px;
+      object-fit: contain;
+      margin-bottom: 20px;
+      filter: drop-shadow(0 0 15px rgba(108, 99, 255, 0.4));
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover .logo-img {
+      transform: scale(1.08);
+    }
+
+    .card-title {
+      font-size: 22px;
+      font-weight: 800;
+      margin-bottom: 8px;
+      color: #ffffff;
+    }
+
+    .card-desc {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-bottom: 24px;
+      flex-grow: 1;
+    }
+
+    .btn-visit {
+      padding: 12px 24px;
+      border-radius: 12px;
+      background: var(--primary-gradient);
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.25s ease;
+      box-shadow: 0 8px 20px rgba(108, 99, 255, 0.3);
+    }
+
+    .card:hover .btn-visit {
+      box-shadow: 0 12px 25px rgba(108, 99, 255, 0.6);
+    }
+
+    .footer {
+      color: var(--text-muted);
+      font-size: 13px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header class="header">
+      <h1 class="title">ExcuusExpert Portaal</h1>
+      <p class="subtitle">Kies een app om te openen</p>
+    </header>
+
+    <div class="cards-grid">
+      <!-- ExcuusExpert Card -->
+      <a href="https://excuusexpert.github.io/excuusexpert/" class="card">
+        <img src="jouw-logo.png" alt="ExcuusExpert Logo" class="logo-img">
+        <h2 class="card-title">ExcuusExpert</h2>
+        <p class="card-desc">Genereer bliksemsnel de beste en meest creatieve excuses voor elke situatie.</p>
+        <div class="btn-visit">
+          Openen <i class="fa-solid fa-arrow-right"></i>
+        </div>
+      </a>
+
+      <!-- StudyTrack Card -->
+      <a href="https://excuusexpert.github.io/studytrack/" class="card">
+        <img src="favicon.png" alt="StudyTrack Logo" class="logo-img">
+        <h2 class="card-title">StudyTrack</h2>
+        <p class="card-desc">Houd overzicht over al je huiswerk, toetsen en samenvattingen in één planner.</p>
+        <div class="btn-visit">
+          Openen <i class="fa-solid fa-arrow-right"></i>
+        </div>
+      </a>
+    </div>
+
+    <footer class="footer">
+      ExcuusExpert Platform &bull; Made by less
+    </footer>
+  </div>
+
+</body>
+</html>
