@@ -4,15 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ExcuusExpert - Portal</title>
-  <meta name="google-site-verification" content="6CH9S9xC1Fp_FROwEj38SJQM01kB6wiO9QQFOhzRPNw" />
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="jouw-logo.png">
 
-  <!-- Google Fonts: Plus Jakarta Sans -->
+  <meta name="google-site-verification" content="6CH9S9xC1Fp_FROwEj38SJQM01kB6wiO9QQFOhzRPNw" />
+
+  <link rel="icon" type="image/png" href="jouw-logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <!-- Font Awesome Iconen -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
@@ -23,15 +21,23 @@
       --border-hover: rgba(108, 99, 255, 0.6);
       --primary: #6c63ff;
       --primary-gradient: linear-gradient(135deg, #6c63ff 0%, #4f46e5 100%);
+      --danger-gradient: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
+      --input-bg: rgba(0, 0, 0, 0.3);
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+    body.light-theme {
+      --bg-dark: #f1f5f9;
+      --card-bg: rgba(255, 255, 255, 0.85);
+      --border-color: rgba(0, 0, 0, 0.08);
+      --border-hover: rgba(108, 99, 255, 0.6);
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --input-bg: rgba(255, 255, 255, 0.8);
     }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       background-color: var(--bg-dark);
@@ -41,20 +47,19 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
       padding: 40px 20px;
       position: relative;
       overflow-x: hidden;
+      transition: background-color 0.3s ease, color 0.3s ease;
     }
 
-    /* Ambient Glow op de achtergrond */
     body::before {
       content: '';
       position: absolute;
       width: 600px;
       height: 600px;
-      background: radial-gradient(circle, rgba(108, 99, 255, 0.22) 0%, rgba(0,0,0,0) 70%);
-      top: 50%;
+      background: radial-gradient(circle, rgba(108, 99, 255, 0.18) 0%, rgba(0,0,0,0) 70%);
+      top: 30%;
       left: 50%;
       transform: translate(-50%, -50%);
       z-index: -1;
@@ -72,38 +77,267 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 36px;
+      gap: 28px;
     }
 
-    /* Header & Titel */
+    /* Top Bar & Theme Toggle */
+    .top-bar {
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .btn-icon {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-icon:hover {
+      border-color: var(--border-hover);
+      background: rgba(108, 99, 255, 0.15);
+    }
+
+    /* Klok & Header */
     .header {
       text-align: center;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 10px;
+      gap: 6px;
     }
 
-    .title {
-      font-size: 36px;
+    .clock-time {
+      font-size: 48px;
       font-weight: 800;
+      letter-spacing: -1px;
       background: linear-gradient(135deg, #ffffff 30%, #a5b4fc 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      letter-spacing: -0.5px;
+    }
+
+    body.light-theme .clock-time {
+      background: linear-gradient(135deg, #0f172a 30%, #4f46e5 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .greeting {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-main);
     }
 
     .subtitle {
       color: var(--text-muted);
-      font-size: 15px;
-      font-weight: 500;
+      font-size: 14px;
     }
 
-    /* Grid van de keuzekaarten */
+    /* Zoekbalk Widget */
+    .search-box {
+      width: 100%;
+      max-width: 600px;
+      display: flex;
+      gap: 8px;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      padding: 6px;
+      border-radius: 16px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .search-engine-select {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-weight: 600;
+      padding: 0 12px;
+      outline: none;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .search-engine-select option {
+      background: var(--bg-dark);
+      color: var(--text-main);
+    }
+
+    .search-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text-main);
+      font-size: 15px;
+      font-family: inherit;
+      padding: 8px;
+    }
+
+    .search-btn {
+      background: var(--primary-gradient);
+      border: none;
+      color: #fff;
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Widgets Grid (Weer & To-Do) */
+    .widgets-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      width: 100%;
+    }
+
+    .widget-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+    }
+
+    .widget-title {
+      font-size: 15px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--primary);
+    }
+
+    /* Weer Widget Styling */
+    .weather-info {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 4px;
+    }
+
+    .weather-temp {
+      font-size: 32px;
+      font-weight: 800;
+    }
+
+    .weather-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* To-Do Widget Styling */
+    .todo-input-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .todo-input-row input {
+      flex: 1;
+      padding: 8px 12px;
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+      background: var(--input-bg);
+      color: var(--text-main);
+      font-size: 13px;
+    }
+
+    .todo-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-height: 150px;
+      overflow-y: auto;
+    }
+
+    .todo-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(255,255,255,0.03);
+      padding: 8px 12px;
+      border-radius: 10px;
+      font-size: 13px;
+      border: 1px solid var(--border-color);
+    }
+
+    .todo-item.done span {
+      text-decoration: line-through;
+      color: var(--text-muted);
+    }
+
+    .todo-actions {
+      display: flex;
+      gap: 6px;
+    }
+
+    .todo-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 12px;
+    }
+
+    .todo-btn:hover { color: var(--text-main); }
+
+    /* Action Bar */
+    .action-bar {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .btn-add {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 10px 18px;
+      border-radius: 14px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-add:hover {
+      border-color: var(--border-hover);
+      background: rgba(108, 99, 255, 0.15);
+    }
+
+    /* Cards Grid */
     .cards-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 24px;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 20px;
       width: 100%;
     }
 
@@ -112,120 +346,576 @@
       backdrop-filter: blur(20px);
       border: 1px solid var(--border-color);
       border-radius: 24px;
-      padding: 32px 24px;
+      padding: 24px;
       display: flex;
       flex-direction: column;
       align-items: center;
       text-align: center;
-      text-decoration: none;
-      color: inherit;
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+      position: relative;
+      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
     }
 
     .card:hover {
-      transform: translateY(-8px);
+      transform: translateY(-6px);
       border-color: var(--border-hover);
       box-shadow: 0 25px 60px rgba(108, 99, 255, 0.25);
     }
 
-    .logo-img {
-      width: 90px;
-      height: 90px;
-      object-fit: contain;
-      margin-bottom: 20px;
-      filter: drop-shadow(0 0 15px rgba(108, 99, 255, 0.4));
-      transition: transform 0.3s ease;
+    .custom-card { cursor: grab; }
+    .custom-card:active { cursor: grabbing; }
+    .custom-card.dragging { opacity: 0.4; transform: scale(0.95); }
+    .custom-card.drag-over { border-color: var(--primary); transform: translateY(-8px) scale(1.02); }
+
+    .drag-handle {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      color: var(--text-muted);
+      font-size: 12px;
+      opacity: 0.5;
     }
 
-    .card:hover .logo-img {
-      transform: scale(1.08);
+    .card-icon-wrapper {
+      width: 70px;
+      height: 70px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.05);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+      font-size: 28px;
+      color: var(--primary);
+    }
+
+    .logo-img {
+      width: 44px;
+      height: 44px;
+      object-fit: contain;
+      border-radius: 8px;
     }
 
     .card-title {
-      font-size: 22px;
+      font-size: 18px;
       font-weight: 800;
-      margin-bottom: 8px;
-      color: #ffffff;
+      margin-bottom: 6px;
+      color: var(--text-main);
     }
 
     .card-desc {
-      font-size: 14px;
+      font-size: 12px;
       color: var(--text-muted);
-      line-height: 1.5;
-      margin-bottom: 24px;
+      line-height: 1.4;
+      margin-bottom: 20px;
       flex-grow: 1;
     }
 
     .btn-visit {
-      padding: 12px 24px;
+      width: 100%;
+      padding: 10px;
       border-radius: 12px;
       background: var(--primary-gradient);
       color: #ffffff;
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 700;
       display: flex;
       align-items: center;
+      justify-content: center;
       gap: 8px;
-      transition: all 0.25s ease;
-      box-shadow: 0 8px 20px rgba(108, 99, 255, 0.3);
+      text-decoration: none;
     }
 
-    .card:hover .btn-visit {
-      box-shadow: 0 12px 25px rgba(108, 99, 255, 0.6);
-    }
-
-    .footer {
+    .btn-edit, .btn-delete {
+      position: absolute;
+      top: 12px;
+      background: rgba(255, 255, 255, 0.05);
+      border: none;
       color: var(--text-muted);
-      font-size: 13px;
-      text-align: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
     }
+
+    .btn-edit { right: 46px; }
+    .btn-delete { right: 12px; }
+
+    .btn-edit:hover { background: rgba(108, 99, 255, 0.2); color: #fff; }
+    .btn-delete:hover { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+
+    /* Modals */
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(8px);
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      padding: 20px;
+    }
+
+    .modal-content {
+      background: var(--bg-dark);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 24px;
+      width: 100%;
+      max-width: 420px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      color: var(--text-main);
+    }
+
+    .modal-title { font-size: 20px; font-weight: 800; }
+    .modal-text { font-size: 14px; color: var(--text-muted); line-height: 1.5; }
+
+    input, select {
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      background: var(--input-bg);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      font-family: inherit;
+    }
+
+    input:focus, select:focus { outline: none; border-color: var(--primary); }
+
+    .error-msg { color: #ef4444; font-size: 13px; display: none; }
+    .modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 10px; }
   </style>
 </head>
 <body>
 
   <div class="container">
-    <header class="header">
-      <h1 class="title">ExcuusExpert Portaal</h1>
-      <p class="subtitle">Kies een app om te openen</p>
-    </header>
-
-    <div class="cards-grid">
-      <!-- ExcuusExpert Card -->
-      <a href="https://excuusexpert.github.io/excuusexpert/" class="card">
-        <img src="jouw-logo.png" alt="ExcuusExpert Logo" class="logo-img">
-        <h2 class="card-title">ExcuusExpert</h2>
-        <p class="card-desc">Genereer bliksemsnel de beste en meest creatieve excuses voor elke situatie.</p>
-        <div class="btn-visit">
-          Openen <i class="fa-solid fa-arrow-right"></i>
-        </div>
-      </a>
-
-      <!-- StudyTrack Card -->
-      <a href="https://excuusexpert.github.io/studytrack/" class="card">
-        <img src="favicon.png" alt="StudyTrack Logo" class="logo-img">
-        <h2 class="card-title">StudyTrack</h2>
-        <p class="card-desc">Houd overzicht over al je huiswerk, toetsen en samenvattingen in één planner.</p>
-        <div class="btn-visit">
-          Openen <i class="fa-solid fa-arrow-right"></i>
-        </div>
-      </a>
-
-      <!-- Snake Card -->
-      <a href="https://excuusexpert.github.io/snake/" class="card">
-        <img src="gamepad.png" alt="Snake Logo" class="logo-img">
-        <h2 class="card-title">Snake</h2>
-        <p class="card-desc">Als je je verveelt... Speel de klassieke Snake game direct in je browser.</p>
-        <div class="btn-visit">
-          Openen <i class="fa-solid fa-arrow-right"></i>
-        </div>
-      </a>
+    
+    <div class="top-bar">
+      <button class="btn-icon" id="themeBtn" onclick="toggleTheme()" title="Wissel Thema">
+        <i class="fa-solid fa-moon"></i>
+      </button>
     </div>
 
-    <footer class="footer">
-      ExcuusExpert Platform &bull; Made by less
-    </footer>
+    <header class="header">
+      <div class="clock-time" id="clockTime">00:00:00</div>
+      <h1 class="greeting" id="greetingText">Goedemorgen</h1>
+      <p class="subtitle">Al je favoriete apps, widgets en snelkoppelingen op één plek</p>
+    </header>
+
+    <form class="search-box" onsubmit="executeSearch(event)">
+      <select id="searchEngine" class="search-engine-select">
+        <option value="google">Google</option>
+        <option value="ddg">DuckDuckGo</option>
+        <option value="youtube">YouTube</option>
+      </select>
+      <input type="text" id="searchInput" class="search-input" placeholder="Zoeken op het web..." autofocus />
+      <button type="submit" class="search-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
+    </form>
+
+    <div class="widgets-grid">
+      <div class="widget-card">
+        <div class="widget-title"><i class="fa-solid fa-cloud-sun"></i> Weerbericht</div>
+        <div class="weather-info">
+          <div>
+            <div class="weather-temp" id="weatherTemp">--°C</div>
+            <div class="weather-desc" id="weatherDesc">Locatie ophalen...</div>
+          </div>
+          <i class="fa-solid fa-temperature-half" style="font-size: 32px; color: var(--text-muted);"></i>
+        </div>
+      </div>
+
+      <div class="widget-card">
+        <div class="widget-title"><i class="fa-solid fa-list-check"></i> Snelle Taken</div>
+        <div class="todo-input-row">
+          <input type="text" id="todoInput" placeholder="Nieuwe taak toevoegen..." onkeydown="if(event.key==='Enter') addTodo()" />
+          <button class="btn-add" style="padding: 8px 14px;" onclick="addTodo()"><i class="fa-solid fa-plus"></i></button>
+        </div>
+        <ul class="todo-list" id="todoList"></ul>
+      </div>
+    </div>
+
+    <div class="action-bar">
+      <h2 class="section-title">Mijn Snelkoppelingen</h2>
+      <button class="btn-add" onclick="openAddModal()">
+        <i class="fa-solid fa-plus"></i> Snelkoppeling toevoegen
+      </button>
+    </div>
+
+    <div class="cards-grid" id="cardsGrid">
+      <div class="card">
+        <div class="card-icon-wrapper"><img src="jouw-logo.png" class="logo-img" alt="Logo"></div>
+        <h2 class="card-title">ExcuusExpert</h2>
+        <p class="card-desc">Genereer bliksemsnel de beste excuses.</p>
+        <a href="https://excuusexpert.github.io/excuusexpert/" class="btn-visit">Openen <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+
+      <div class="card">
+        <div class="card-icon-wrapper"><img src="favicon.png" class="logo-img" alt="Logo"></div>
+        <h2 class="card-title">StudyTrack</h2>
+        <p class="card-desc">Overzicht over huiswerk en toetsen.</p>
+        <a href="https://excuusexpert.github.io/studytrack/" class="btn-visit">Openen <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+
+      <div class="card">
+        <div class="card-icon-wrapper"><img src="gamepad.png" class="logo-img" alt="Logo"></div>
+        <h2 class="card-title">Snake</h2>
+        <p class="card-desc">Speel Snake als je je verveelt.</p>
+        <a href="https://excuusexpert.github.io/snake/" class="btn-visit">Openen <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+    </div>
   </div>
 
+  <div class="modal" id="addModal">
+    <div class="modal-content">
+      <h3 class="modal-title" id="addModalTitle">Website toevoegen</h3>
+      
+      <input type="text" id="linkTitle" placeholder="Naam (bijv. Magister)">
+      <input type="text" id="linkUrl" placeholder="URL (bijv. magister.net of je schoollink)">
+      
+      <label style="font-size: 13px; color: var(--text-muted); font-weight: 600;">Icoon Optie:</label>
+      <select id="iconType" onchange="toggleIconTypeInput()">
+        <option value="auto">Automatische Favicon</option>
+        <option value="url">Custom Afbeeldings URL</option>
+        <option value="fa">FontAwesome Klasse (bijv. fa-star)</option>
+      </select>
+      
+      <input type="text" id="iconVal" placeholder="Voer URL of FontAwesome klasse in..." style="display: none;">
+
+      <p class="error-msg" id="errorMessage">Deze link staat al op je dashboard!</p>
+
+      <div class="modal-actions">
+        <button class="btn-add" style="background: transparent;" onclick="closeAddModal()">Annuleren</button>
+        <button class="btn-add" style="background: var(--primary-gradient);" onclick="saveBookmark()">Opslaan</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="deleteModal">
+    <div class="modal-content">
+      <h3 class="modal-title">Snelkoppeling verwijderen</h3>
+      <p class="modal-text">Weet je zeker dat je <strong id="deleteTargetName" style="color: var(--text-main);"></strong> wilt verwijderen van je dashboard?</p>
+
+      <div class="modal-actions">
+        <button class="btn-add" style="background: transparent;" onclick="closeDeleteModal()">Annuleren</button>
+        <button class="btn-add" style="background: var(--danger-gradient);" onclick="confirmDelete()">Verwijderen</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* Global State */
+    let customBookmarks = JSON.parse(localStorage.getItem('portal_bookmarks')) || [];
+    let todos = JSON.parse(localStorage.getItem('portal_todos')) || [];
+    let isLightTheme = localStorage.getItem('portal_theme') === 'light';
+    let pendingDeleteIndex = null;
+    let editingIndex = null;
+    let draggedIndex = null;
+
+    /* Initialize Theme */
+    if (isLightTheme) {
+      document.body.classList.add('light-theme');
+      document.getElementById('themeBtn').innerHTML = '<i class="fa-solid fa-sun"></i>';
+    }
+
+    function toggleTheme() {
+      isLightTheme = !isLightTheme;
+      document.body.classList.toggle('light-theme', isLightTheme);
+      localStorage.setItem('portal_theme', isLightTheme ? 'light' : 'dark');
+      document.getElementById('themeBtn').innerHTML = isLightTheme ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
+    }
+
+    /* Live Klok & Dynamische Begroeting */
+    function updateClock() {
+      const now = new Date();
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const seconds = String(now.getSeconds()).padStart(2, '0');
+      
+      document.getElementById('clockTime').innerText = `${hours}:${minutes}:${seconds}`;
+
+      let greeting = "Goedemorgen";
+      const h = now.getHours();
+      if (h >= 12 && h < 18) greeting = "Goedemiddag";
+      else if (h >= 18 && h < 24) greeting = "Goedenavond";
+      else if (h >= 0 && h < 6) greeting = "Goedenacht";
+
+      document.getElementById('greetingText').innerText = greeting;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    /* Multifunctionele Zoekbalk */
+    function executeSearch(e) {
+      e.preventDefault();
+      const query = document.getElementById('searchInput').value.trim();
+      const engine = document.getElementById('searchEngine').value;
+      if (!query) return;
+
+      let searchUrl = '';
+      if (engine === 'google') searchUrl = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+      else if (engine === 'ddg') searchUrl = `https://duckduckgo.com/?q=${encodeURIComponent(query)}`;
+      else if (engine === 'youtube') searchUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`;
+
+      window.open(searchUrl, '_blank');
+    }
+
+    /* Weer Widget (Open-Meteo API) */
+    function fetchWeather() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          pos => getWeather(pos.coords.latitude, pos.coords.longitude),
+          () => getWeather(52.3676, 4.9041) // Fallback naar Amsterdam
+        );
+      } else {
+        getWeather(52.3676, 4.9041);
+      }
+    }
+
+    async function getWeather(lat, lon) {
+      try {
+        const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`);
+        const data = await res.json();
+        const temp = Math.round(data.current_weather.temperature);
+        document.getElementById('weatherTemp').innerText = `${temp}°C`;
+        document.getElementById('weatherDesc').innerText = getWeatherDescription(data.current_weather.weathercode);
+      } catch (err) {
+        document.getElementById('weatherDesc').innerText = "Kon weer niet laden";
+      }
+    }
+
+    function getWeatherDescription(code) {
+      if (code === 0) return "Helder / Zonnig";
+      if (code <= 3) return "Licht bewolkt";
+      if (code <= 48) return "Mistig";
+      if (code <= 67) return "Regen";
+      if (code <= 77) return "Sneeuw";
+      if (code <= 99) return "Onweer";
+      return "Wisselvallig";
+    }
+    fetchWeather();
+
+    /* To-Do Widget */
+    function renderTodos() {
+      const list = document.getElementById('todoList');
+      list.innerHTML = '';
+      todos.forEach((todo, idx) => {
+        const li = document.createElement('li');
+        li.className = `todo-item ${todo.done ? 'done' : ''}`;
+        li.innerHTML = `
+          <span>${todo.text}</span>
+          <div class="todo-actions">
+            <button class="todo-btn" onclick="toggleTodo(${idx})"><i class="fa-solid fa-check"></i></button>
+            <button class="todo-btn" onclick="deleteTodo(${idx})"><i class="fa-solid fa-trash"></i></button>
+          </div>
+        `;
+        list.appendChild(li);
+      });
+    }
+
+    function addTodo() {
+      const input = document.getElementById('todoInput');
+      const text = input.value.trim();
+      if (!text) return;
+      todos.push({ text, done: false });
+      localStorage.setItem('portal_todos', JSON.stringify(todos));
+      input.value = '';
+      renderTodos();
+    }
+
+    function toggleTodo(index) {
+      todos[index].done = !todos[index].done;
+      localStorage.setItem('portal_todos', JSON.stringify(todos));
+      renderTodos();
+    }
+
+    function deleteTodo(index) {
+      todos.splice(index, 1);
+      localStorage.setItem('portal_todos', JSON.stringify(todos));
+      renderTodos();
+    }
+    renderTodos();
+
+    /* Custom Bookmarks Logic */
+    function getDomain(urlStr) {
+      try {
+        let formattedUrl = urlStr.startsWith('http://') || urlStr.startsWith('https://') ? urlStr : 'https://' + urlStr;
+        const parsed = new URL(formattedUrl);
+        return parsed.hostname;
+      } catch (e) {
+        return urlStr;
+      }
+    }
+
+    function formatUrl(urlStr) {
+      let formatted = urlStr.trim();
+      if (!formatted.startsWith('http://') && !formatted.startsWith('https://')) {
+        formatted = 'https://' + formatted;
+      }
+      return formatted.replace(/\/$/, "");
+    }
+
+    function renderBookmarks() {
+      const grid = document.getElementById('cardsGrid');
+      document.querySelectorAll('.custom-card').forEach(el => el.remove());
+
+      customBookmarks.forEach((bm, index) => {
+        const domain = getDomain(bm.url);
+        let iconHtml = '';
+
+        if (bm.iconType === 'url' && bm.iconVal) {
+          iconHtml = `<img src="${bm.iconVal}" class="logo-img" alt="${bm.title}">`;
+        } else if (bm.iconType === 'fa' && bm.iconVal) {
+          iconHtml = `<i class="fa-solid ${bm.iconVal}"></i>`;
+        } else {
+          const primaryIcon = `https://icon.horse/icon/${domain}`;
+          const fallbackIcon = `https://icons.duckduckgo.com/ip3/${domain}.ico`;
+          iconHtml = `<img src="${primaryIcon}" class="logo-img" alt="${bm.title}" onerror="this.onerror=null; this.src='${fallbackIcon}';">`;
+        }
+
+        const card = document.createElement('div');
+        card.className = 'card custom-card';
+        card.setAttribute('draggable', 'true');
+        card.dataset.index = index;
+
+        card.innerHTML = `
+          <i class="fa-solid fa-grip-vertical drag-handle" title="Slepen om te verplaatsen"></i>
+          <button class="btn-edit" onclick="openEditModal(${index})" title="Bewerken"><i class="fa-solid fa-pen"></i></button>
+          <button class="btn-delete" onclick="askDelete(${index})" title="Verwijderen"><i class="fa-solid fa-xmark"></i></button>
+          <div class="card-icon-wrapper">${iconHtml}</div>
+          <h2 class="card-title">${bm.title}</h2>
+          <p class="card-desc">Snelkoppeling naar ${domain}</p>
+          <a href="${bm.url}" target="_blank" class="btn-visit">Openen <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+        `;
+
+        // Drag & Drop
+        card.addEventListener('dragstart', (e) => {
+          draggedIndex = index;
+          card.classList.add('dragging');
+          e.dataTransfer.effectAllowed = 'move';
+        });
+
+        card.addEventListener('dragend', () => {
+          card.classList.remove('dragging');
+          document.querySelectorAll('.custom-card').forEach(c => c.classList.remove('drag-over'));
+        });
+
+        card.addEventListener('dragover', (e) => {
+          e.preventDefault();
+          e.dataTransfer.dropEffect = 'move';
+          card.classList.add('drag-over');
+        });
+
+        card.addEventListener('dragleave', () => card.classList.remove('drag-over'));
+
+        card.addEventListener('drop', (e) => {
+          e.preventDefault();
+          card.classList.remove('drag-over');
+          if (draggedIndex !== null && draggedIndex !== index) {
+            const movedItem = customBookmarks.splice(draggedIndex, 1)[0];
+            customBookmarks.splice(index, 0, movedItem);
+            localStorage.setItem('portal_bookmarks', JSON.stringify(customBookmarks));
+            renderBookmarks();
+          }
+        });
+
+        grid.appendChild(card);
+      });
+    }
+
+    function toggleIconTypeInput() {
+      const type = document.getElementById('iconType').value;
+      const valInput = document.getElementById('iconVal');
+      valInput.style.display = type === 'auto' ? 'none' : 'block';
+    }
+
+    function openAddModal() { 
+      editingIndex = null;
+      document.getElementById('addModalTitle').innerText = 'Website toevoegen';
+      document.getElementById('linkTitle').value = '';
+      document.getElementById('linkUrl').value = '';
+      document.getElementById('iconType').value = 'auto';
+      document.getElementById('iconVal').value = '';
+      toggleIconTypeInput();
+      document.getElementById('errorMessage').style.display = 'none';
+      document.getElementById('addModal').style.display = 'flex'; 
+    }
+
+    function openEditModal(index) {
+      editingIndex = index;
+      const bm = customBookmarks[index];
+      document.getElementById('addModalTitle').innerText = 'Website bewerken';
+      document.getElementById('linkTitle').value = bm.title;
+      document.getElementById('linkUrl').value = bm.url;
+      document.getElementById('iconType').value = bm.iconType || 'auto';
+      document.getElementById('iconVal').value = bm.iconVal || '';
+      toggleIconTypeInput();
+      document.getElementById('errorMessage').style.display = 'none';
+      document.getElementById('addModal').style.display = 'flex';
+    }
+    
+    function closeAddModal() { document.getElementById('addModal').style.display = 'none'; }
+
+    function saveBookmark() {
+      const title = document.getElementById('linkTitle').value.trim();
+      let url = document.getElementById('linkUrl').value.trim();
+      const iconType = document.getElementById('iconType').value;
+      const iconVal = document.getElementById('iconVal').value.trim();
+      const errorEl = document.getElementById('errorMessage');
+
+      if (!title || !url) return alert('Vul zowel een naam als een URL in.');
+
+      url = formatUrl(url);
+
+      const isDuplicate = customBookmarks.some((bm, idx) => 
+        idx !== editingIndex && formatUrl(bm.url).toLowerCase() === url.toLowerCase()
+      );
+
+      if (isDuplicate) {
+        errorEl.style.display = 'block';
+        return;
+      }
+
+      const bookmarkData = { title, url, iconType, iconVal };
+
+      if (editingIndex !== null) {
+        customBookmarks[editingIndex] = bookmarkData;
+      } else {
+        customBookmarks.push(bookmarkData);
+      }
+
+      localStorage.setItem('portal_bookmarks', JSON.stringify(customBookmarks));
+      closeAddModal();
+      renderBookmarks();
+    }
+
+    function askDelete(index) {
+      pendingDeleteIndex = index;
+      document.getElementById('deleteTargetName').innerText = customBookmarks[index].title;
+      document.getElementById('deleteModal').style.display = 'flex';
+    }
+
+    function closeDeleteModal() {
+      pendingDeleteIndex = null;
+      document.getElementById('deleteModal').style.display = 'none';
+    }
+
+    function confirmDelete() {
+      if (pendingDeleteIndex !== null) {
+        customBookmarks.splice(pendingDeleteIndex, 1);
+        localStorage.setItem('portal_bookmarks', JSON.stringify(customBookmarks));
+        renderBookmarks();
+      }
+      closeDeleteModal();
+    }
+
+    renderBookmarks();
+  </script>
 </body>
 </html>
