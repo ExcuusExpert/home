@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ExcuusExpert - Portal</title>
 
+  <!-- Google Site Verification -->
   <meta name="google-site-verification" content="6CH9S9xC1Fp_FROwEj38SJQM01kB6wiO9QQFOhzRPNw" />
 
   <link rel="icon" type="image/png" href="jouw-logo.png">
@@ -85,6 +86,7 @@
       width: 100%;
       display: flex;
       justify-content: flex-end;
+      gap: 10px;
     }
 
     .btn-icon {
@@ -99,12 +101,19 @@
       align-items: center;
       justify-content: center;
       font-size: 16px;
+      text-decoration: none;
       transition: all 0.2s ease;
     }
 
     .btn-icon:hover {
       border-color: var(--border-hover);
       background: rgba(108, 99, 255, 0.15);
+    }
+
+    .snap-icon:hover {
+      color: #FFFC00;
+      border-color: #FFFC00;
+      background: rgba(255, 252, 0, 0.1);
     }
 
     /* Klok & Header */
@@ -147,21 +156,23 @@
       width: 100%;
       max-width: 600px;
       display: flex;
+      align-items: center;
       gap: 8px;
       background: var(--card-bg);
       border: 1px solid var(--border-color);
-      padding: 6px;
+      padding: 6px 12px;
       border-radius: 16px;
       backdrop-filter: blur(20px);
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     }
 
     .search-engine-select {
-      background: transparent;
-      border: none;
+      width: auto !important;
+      background: transparent !important;
+      border: none !important;
       color: var(--text-muted);
       font-weight: 600;
-      padding: 0 12px;
+      padding: 0 8px;
       outline: none;
       cursor: pointer;
       font-family: inherit;
@@ -174,8 +185,9 @@
 
     .search-input {
       flex: 1;
-      background: transparent;
-      border: none;
+      width: 100%;
+      background: transparent !important;
+      border: none !important;
       outline: none;
       color: var(--text-main);
       font-size: 15px;
@@ -194,6 +206,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      flex-shrink: 0;
     }
 
     /* Widgets Grid (Weer & To-Do) */
@@ -477,7 +490,7 @@
     .modal-title { font-size: 20px; font-weight: 800; }
     .modal-text { font-size: 14px; color: var(--text-muted); line-height: 1.5; }
 
-    input, select {
+    .modal input, .modal select {
       width: 100%;
       padding: 12px;
       border-radius: 10px;
@@ -487,28 +500,61 @@
       font-family: inherit;
     }
 
-    input:focus, select:focus { outline: none; border-color: var(--primary); }
+    .modal input:focus, .modal select:focus { outline: none; border-color: var(--primary); }
 
     .error-msg { color: #ef4444; font-size: 13px; display: none; }
     .modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 10px; }
+
+    /* Footer Snapchat Subtiel */
+    .footer-snap {
+      margin-top: 20px;
+      font-size: 13px;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    .footer-snap a {
+      color: var(--text-muted);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-color);
+      transition: all 0.2s ease;
+    }
+
+    .footer-snap a:hover {
+      color: var(--text-main);
+      border-color: #FFFC00;
+      background: rgba(255, 252, 0, 0.05);
+    }
   </style>
 </head>
 <body>
 
   <div class="container">
     
+    <!-- Top Bar with Snapchat & Theme Toggle -->
     <div class="top-bar">
+      <a href="https://www.snapchat.com/add/excuus-expert" target="_blank" class="btn-icon snap-icon" title="Volg op Snapchat voor updates">
+        <i class="fa-brands fa-snapchat"></i>
+      </a>
       <button class="btn-icon" id="themeBtn" onclick="toggleTheme()" title="Wissel Thema">
         <i class="fa-solid fa-moon"></i>
       </button>
     </div>
 
+    <!-- Header met Live Klok & Dynamische Begroeting -->
     <header class="header">
       <div class="clock-time" id="clockTime">00:00:00</div>
       <h1 class="greeting" id="greetingText">Goedemorgen</h1>
       <p class="subtitle">Al je favoriete apps, widgets en snelkoppelingen op één plek</p>
     </header>
 
+    <!-- Multifunctionele Zoekbalk -->
     <form class="search-box" onsubmit="executeSearch(event)">
       <select id="searchEngine" class="search-engine-select">
         <option value="google">Google</option>
@@ -519,7 +565,9 @@
       <button type="submit" class="search-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
     </form>
 
+    <!-- Widgets Section (Weer & To-Do) -->
     <div class="widgets-grid">
+      <!-- Weer Widget -->
       <div class="widget-card">
         <div class="widget-title"><i class="fa-solid fa-cloud-sun"></i> Weerbericht</div>
         <div class="weather-info">
@@ -531,6 +579,7 @@
         </div>
       </div>
 
+      <!-- Snelle Notities / To-Do Widget -->
       <div class="widget-card">
         <div class="widget-title"><i class="fa-solid fa-list-check"></i> Snelle Taken</div>
         <div class="todo-input-row">
@@ -541,6 +590,7 @@
       </div>
     </div>
 
+    <!-- Action Bar & Cards Grid -->
     <div class="action-bar">
       <h2 class="section-title">Mijn Snelkoppelingen</h2>
       <button class="btn-add" onclick="openAddModal()">
@@ -549,6 +599,7 @@
     </div>
 
     <div class="cards-grid" id="cardsGrid">
+      <!-- Vaste Cards -->
       <div class="card">
         <div class="card-icon-wrapper"><img src="jouw-logo.png" class="logo-img" alt="Logo"></div>
         <h2 class="card-title">ExcuusExpert</h2>
@@ -570,8 +621,17 @@
         <a href="https://excuusexpert.github.io/snake/" class="btn-visit">Openen <i class="fa-solid fa-arrow-right"></i></a>
       </div>
     </div>
+
+    <!-- Subtiele Snapchat Footer -->
+    <footer class="footer-snap">
+      <a href="https://www.snapchat.com/add/excuus-expert" target="_blank">
+        <i class="fa-brands fa-snapchat" style="color: #FFFC00; font-size: 16px;"></i> Volg mij op Snapchat voor de laatste updates
+      </a>
+    </footer>
+
   </div>
 
+  <!-- Modal voor Toevoegen / Bewerken van Snelkoppelingen -->
   <div class="modal" id="addModal">
     <div class="modal-content">
       <h3 class="modal-title" id="addModalTitle">Website toevoegen</h3>
@@ -597,6 +657,7 @@
     </div>
   </div>
 
+  <!-- Modal voor Verwijderen -->
   <div class="modal" id="deleteModal">
     <div class="modal-content">
       <h3 class="modal-title">Snelkoppeling verwijderen</h3>
